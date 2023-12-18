@@ -41,7 +41,7 @@ export default function Home(props: any) {
       }),
     };
 
-    await fetch(process.env.API_URL + 'guests', requestOptions)
+    await fetch('https://niver-ester-api.onrender.com/guests', requestOptions)
       .then(() => setSalvou(true))
       .catch(() => setSalvou(false));
   }
@@ -145,7 +145,7 @@ export default function Home(props: any) {
 }
 
 export async function getServerSideProps() {
-  const guests = await fetch(process.env.API_URL + 'guests')
+  const guests = await fetch('https://niver-ester-api.onrender.com/guests')
     .then(response => response.json());
 
   return {
