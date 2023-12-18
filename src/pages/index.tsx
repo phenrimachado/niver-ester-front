@@ -8,6 +8,7 @@ import Form from 'react-bootstrap/Form';
 import { env } from "process";
 
 export default function Home(props: any) {
+  console.log(props);
   const [show, setShow] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -40,10 +41,12 @@ export default function Home(props: any) {
       }),
     };
 
-    await fetch(process.env.API_URL + '/guests', requestOptions)
+    await fetch(process.env.API_URL + 'guests', requestOptions)
       .then(() => setSalvou(true))
       .catch(() => setSalvou(false));
   }
+
+  console.log(process.env.API_URL);
 
   const [width, setWidth] = useState(0);
 
@@ -142,7 +145,7 @@ export default function Home(props: any) {
 }
 
 export async function getServerSideProps() {
-  const guests = await fetch(process.env.API_URL + '/guests')
+  const guests = await fetch(process.env.API_URL + 'guests')
     .then(response => response.json());
 
   return {
