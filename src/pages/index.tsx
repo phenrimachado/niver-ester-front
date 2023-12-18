@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import { env } from "process";
 
 export default function Home(props: any) {
   const [show, setShow] = useState(false);
@@ -39,7 +40,7 @@ export default function Home(props: any) {
       }),
     };
 
-    await fetch('http://localhost:3333/guests', requestOptions)
+    await fetch(process.env.API_URL + '/guests', requestOptions)
       .then(() => setSalvou(true))
       .catch(() => setSalvou(false));
   }
@@ -141,7 +142,7 @@ export default function Home(props: any) {
 }
 
 export async function getServerSideProps() {
-  const guests = await fetch('http://localhost:3333/guests')
+  const guests = await fetch(process.env.API_URL + '/guests')
     .then(response => response.json());
 
   return {
