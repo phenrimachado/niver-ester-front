@@ -8,11 +8,14 @@ import Form from 'react-bootstrap/Form';
 import { env } from "process";
 
 export default function Home(props: any) {
-  console.log(props);
   const [show, setShow] = useState(false);
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [adults, setAdults] = useState(0);
+  const [kidsUpTo6, setKidsUpTo6] = useState(0);
+  const [kidsOver6, setKidsOver6] = useState(0);
 
   const [salvou, setSalvou] = useState<boolean | null>(null);
 
@@ -25,11 +28,14 @@ export default function Home(props: any) {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-  
+
     const data = {
       name,
       email,
-      phone
+      phone,
+      adults,
+      kidsUpTo6,
+      kidsOver6
     } 
 
     const requestOptions = {
@@ -41,12 +47,11 @@ export default function Home(props: any) {
       }),
     };
 
+    // await fetch('http://localhost:3333/guests', requestOptions)
     await fetch('https://niver-ester-api.onrender.com/guests', requestOptions)
       .then(() => setSalvou(true))
       .catch(() => setSalvou(false));
   }
-
-  console.log(process.env.API_URL);
 
   const [width, setWidth] = useState(0);
 
@@ -109,19 +114,29 @@ export default function Home(props: any) {
             <p>Vai ser incrível ter você na minha festa. Por favor, confirme seus dados.</p>
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="name">
-                <Form.Label>Nome</Form.Label>
+                <Form.Label className="font-semibold">Nome</Form.Label>
                 <Form.Control type="text" placeholder="Seu nome" onChange={e => setName(e.target.value)} required />
               </Form.Group>
               <Form.Group className="mb-3" controlId="phone">
-                <Form.Label>Telefone</Form.Label>
+                <Form.Label className="font-semibold">Telefone</Form.Label>
                 <Form.Control type="phone" placeholder="Seu telefone" onChange={e => setPhone(e.target.value)} required />
               </Form.Group>
               <Form.Group className="mb-3" controlId="email">
-                <Form.Label>Email</Form.Label>
+                <Form.Label className="font-semibold">Email</Form.Label>
                 <Form.Control type="email" placeholder="Seu melhor e-mail" onChange={e => setEmail(e.target.value)} required />
-                {/* <Form.Text className="text-muted">
-                  We'll never share your email with anyone else.
-                </Form.Text> */}
+              </Form.Group>
+              <p>Agora confirme quantas pessoas virão com você.</p>
+              <Form.Group className="mb-3" controlId="companions-adults">
+                <Form.Label className="font-semibold">Adultos</Form.Label>
+                <Form.Control type="number" placeholder="Número de adultos" onChange={e => setAdults(Number(e.target.value))} value={adults} />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="companions-kids-up-to-6">
+                <Form.Label className="font-semibold">Crianças até 6 anos</Form.Label>
+                <Form.Control type="number" placeholder="Número de crianças até 6 anos" onChange={e => setKidsUpTo6(Number(e.target.value))} value={kidsUpTo6} />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="companions-kids-over-to-6">
+                <Form.Label className="font-semibold">Crianças acima de 6 anos</Form.Label>
+                <Form.Control type="number" placeholder="Número de crianças acima de 6 anos" onChange={e => setKidsOver6(Number(e.target.value))} value={kidsOver6} />
               </Form.Group>
               <Button variant="primary" type="submit">
                 Confirmar
